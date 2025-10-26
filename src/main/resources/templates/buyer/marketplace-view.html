@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Browse Marketplace</title>
+</head>
+<body>
+    <h2>Filter Produce</h2>
+    <form th:action="@{/buyer/marketplace/filter}" method="get">
+        <label>Category:</label>
+        <input type="text" name="category"/>
+
+        <label>Min Price:</label>
+        <input type="number" name="minPrice"/>
+
+        <label>Max Price:</label>
+        <input type="number" name="maxPrice"/>
+
+        <button type="submit">Apply Filters</button>
+    </form>
+    <br/>
+
+    <h2>Available Produce for Buyers</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price/kg</th>
+            <th>Quantity</th>
+            <th>Harvest Date</th>
+            <th>Farmer</th>
+        </tr>
+        <tr th:each="produce : ${produceList}">
+            <td th:text="${produce.name}"></td>
+            <td th:text="${produce.category}"></td>
+            <td th:text="${produce.pricePerKg}"></td>
+            <td th:text="${produce.quantityAvailable}"></td>
+            <td th:text="${produce.harvestDate}"></td>
+            <td th:text="${produce.farmer != null ? produce.farmer.name : 'Unknown'}"></td>
+        </tr>
+    </table>
+</body>
+</html>

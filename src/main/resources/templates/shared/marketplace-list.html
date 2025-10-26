@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Marketplace</title>
+    <link rel="stylesheet" th:href="@{/css/marketplace-list.css}" />
+</head>
+<body>
+    <h2>Available Produce</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price/kg</th>
+            <th>Quantity</th>
+            <th>Harvest Date</th>
+            <th>Farmer</th>
+        </tr>
+        <tr th:each="produce : ${produceList}">
+            <td th:text="${produce.name}"></td>
+            <td th:text="${produce.category}"></td>
+            <td th:text="${produce.pricePerKg}"></td>
+            <td th:text="${produce.quantityAvailable}"></td>
+            <td th:text="${produce.harvestDate}"></td>
+            <td th:text="${produce.farmer != null ? produce.farmer.name : 'Unknown'}"></td>
+        </tr>
+    </table>
+</body>
+</html>

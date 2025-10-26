@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/farmer-orders.css}" />
+    <title>Farmer Order Dashboard</title>
+</head>
+<body>
+    <h2>Incoming Orders</h2>
+    <table border="1">
+        <tr>
+            <th>Order ID</th>
+            <th>Buyer Name</th>
+            <th>Contact</th>
+            <th>Produce</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.buyerName}"></td>
+            <td th:text="${order.contactInfo}"></td>
+            <td th:text="${order.produce.name}"></td>
+            <td th:text="${order.quantityOrdered}"></td>
+            <td th:text="${order.status}"></td>
+            <td>
+                <form th:action="@{/farmer/orders/update-status}" method="post" style="display:inline;">
+                    <input type="hidden" name="orderId" th:value="${order.id}" />
+                    <select name="status">
+                        <option value="Accepted">Accept</option>
+                        <option value="Rejected">Reject</option>
+                        <option value="Dispatched">Dispatch</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

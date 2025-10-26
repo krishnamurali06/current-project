@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/orders.css}" />
+    <title>My Orders</title>
+</head>
+<body>
+    <h2 th:if="${buyerName}" th:text="'Orders for ' + ${buyerName}"></h2>
+
+    <form th:action="@{/buyer/orders}" method="get">
+        <label>Enter Buyer Name:</label>
+        <input type="text" name="buyerName" required/>
+        <button type="submit">View My Orders</button>
+    </form>
+    <br/>
+
+    <table border="1" th:if="${orders}">
+        <tr>
+            <th>Order ID</th>
+            <th>Produce</th>
+            <th>Quantity</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.produce.name}"></td>
+            <td th:text="${order.quantityOrdered}"></td>
+            <td th:text="${order.status}"></td>
+        </tr>
+    </table>
+
+    <div th:if="${orders != null and orders.size() == 0}">
+        <p>No orders found for this buyer.</p>
+    </div>
+</body>
+</html>

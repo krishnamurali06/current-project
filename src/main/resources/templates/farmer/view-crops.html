@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">My Crops</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .no-crops {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4" th:text="${title}">My Crops</h2>
+
+    <div th:if="${#lists.isEmpty(crops)}" class="no-crops">
+        <p>You have not added any crops yet.</p>
+        <a th:href="@{/crop/add}" class="btn btn-success">Add Your First Crop</a>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(crops)}">
+        <table class="table table-bordered table-striped">
+            <thead class="table-success">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Planting Date</th>
+                    <th>Expected Yield (kg)</th>
+                    <th>Health Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="crop : ${crops}">
+                    <td th:text="${crop.name}">Name</td>
+                    <td th:text="${crop.type}">Type</td>
+                    <td th:text="${#dates.format(crop.plantingDate, 'dd-MM-yyyy')}">Date</td>
+                    <td th:text="${crop.expectedYield}">Yield</td>
+                    <td th:text="${crop.healthStatus}">Health</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

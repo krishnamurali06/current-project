@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Farmer Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">🌿 SmartAgri</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/crop/add}">Add Crop</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/farmer/view-crops}">View My Crops</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/farmer/orders}">Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/marketplace/list}">Marketplace</a></li>
+                    <li class="nav-item"><a class="btn btn-danger" th:href="@{/auth/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container mt-4">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2>Welcome, <span th:text="${username}"></span>!</h2>
+                <p class="lead text-muted">Easily manage your crops and sales.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Add New Crop</h5>
+                        <p class="card-text">Register a new crop for sale.</p>
+                        <a th:href="@{/crop/add}" class="btn btn-success">Add Crop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">View My Crops</h5>
+                        <p class="card-text">See and manage listed crops.</p>
+                        <a th:href="@{/farmer/view-crops}" class="btn btn-outline-success">View Crops</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Orders</h5>
+                        <p class="card-text">View and manage incoming orders.</p>
+                        <a th:href="@{/farmer/orders}" class="btn btn-info">Orders</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer bg-light text-center py-3 mt-4">
+        <span>&copy; 2025 Smart Agriculture Management System</span>
+    </footer>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

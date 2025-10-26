@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/place-order.css}" />
+    <title>Place Order</title>
+</head>
+<body>
+    <h2>Place an Order</h2>
+    <form th:action="@{/order/submit}" method="post">
+        <label>Buyer Name:</label>
+        <input type="text" name="buyerName" required/><br/><br/>
+
+        <label>Contact Info:</label>
+        <input type="text" name="contactInfo" required/><br/><br/>
+
+        <label>Quantity (kg):</label>
+        <input type="number" name="quantityOrdered" required/><br/><br/>
+
+        <label>Select Produce:</label>
+        <select name="produceId" required>
+            <option th:each="produce : ${produceList}" th:value="${produce.id}" th:text="${produce.name}"></option>
+        </select><br/><br/>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+    <div th:if="${param.success}">
+        <p style="color:green;">Order placed successfully!</p>
+    </div>
+    <div th:if="${param.error}">
+        <p style="color:red;">Error placing order. Please try again.</p>
+    </div>
+</body>
+</html>

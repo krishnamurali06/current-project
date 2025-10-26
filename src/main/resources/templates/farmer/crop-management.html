@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${title}">Add Crop</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/crop-management.css}" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.93);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 2rem 2.5rem;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.02);
+        }
+
+        .alert {
+            font-size: 0.95rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5" style="max-width: 650px;">
+        <h2 class="mb-4">Add Crop</h2>
+
+        <!-- ✅ Success message -->
+        <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+        <!-- ❌ Error message -->
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <!-- ✅ Form (no farmer ID, handled by backend) -->
+        <form th:action="@{/crop/add}" method="post" th:object="${crop}">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Crop Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="e.g., Wheat" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="type" class="form-label">Crop Type</label>
+                <input type="text" class="form-control" id="type" th:field="*{type}" placeholder="e.g., Grain" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="plantingDate" class="form-label">Planting Date</label>
+                <input type="date" class="form-control" id="plantingDate" th:field="*{plantingDate}" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="expectedYield" class="form-label">Expected Yield (kg)</label>
+                <input type="number" class="form-control" id="expectedYield" th:field="*{expectedYield}" min="1" placeholder="Enter expected yield" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="healthStatus" class="form-label">Health Status</label>
+                <input type="text" class="form-control" id="healthStatus" th:field="*{healthStatus}" placeholder="e.g., Healthy" required />
+            </div>
+
+            <button type="submit" class="btn btn-success">Submit Crop</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartAgri | Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <header>
+        <h1>Welcome to SmartAgri</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Hello, <span th:text="${user.username}">User</span>!</h2>
+            <p>Your role: <strong th:text="${user.role}">Role</strong></p>
+            <p>We're glad to have you on board.</p>
+        </section>
+
+        <nav>
+            <ul>
+                <li><a th:href="@{/buyer/dashboard}" th:if="${user.role == 'BUYER'}">Buyer Dashboard</a></li>
+                <li><a th:href="@{/farmer/dashboard}" th:if="${user.role == 'FARMER'}">Farmer Dashboard</a></li>
+                <li><a th:href="@{/admin/dashboard}" th:if="${user.role == 'ADMIN'}">Admin Panel</a></li>
+            </ul>
+        </nav>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SmartAgri. All rights reserved.</p>
+    </footer>
+</body>
+</html>
