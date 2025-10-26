@@ -14,25 +14,26 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/")
+    public String homePage(Model model) {
+        model.addAttribute("title", "Smart Agriculture Management System");
+        return "home";
+    }
+
     @GetMapping("/home")
-    public String homePage(Authentication authentication, Model model) {
+    public String homePageWithAuth(Authentication authentication, Model model) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            System.out.println("❌ No authenticated user found.");
             return "redirect:/auth/login";
         }
 
         String username = authentication.getName();
-        System.out.println("✅ Logged in user: " + username);
-
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
-            System.out.println("❌ User not found in database: " + username);
             return "redirect:/auth/login?error";
         }
 
-        System.out.println("🎯 Role: " + user.getRole());
         model.addAttribute("user", user);
-
-        return "home"; // Must match home.html in templates
+        model.addAttribute("title", "Smart Agriculture Management System");
+        return "home";
     }
 }

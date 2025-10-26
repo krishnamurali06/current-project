@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div th:replace="~{shared/header :: header}"></div>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <!-- Page Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2><i class="fas fa-chart-line me-2"></i>Analytics Dashboard</h2>
+                        <p class="text-muted">Comprehensive analytics and insights for the Smart Agriculture platform</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="exportAnalytics()">
+                            <i class="fas fa-download me-2"></i>Export Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="stats-grid mb-4">
+                    <div class="stats-card">
+                        <div class="stats-number" th:text="${totalUsers}">0</div>
+                        <div class="stats-label">Total Users</div>
+                        <i class="fas fa-users fa-2x text-primary mt-2"></i>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number" th:text="${totalFarmers}">0</div>
+                        <div class="stats-label">Farmers</div>
+                        <i class="fas fa-tractor fa-2x text-success mt-2"></i>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number" th:text="${totalBuyers}">0</div>
+                        <div class="stats-label">Buyers</div>
+                        <i class="fas fa-shopping-cart fa-2x text-primary mt-2"></i>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number" th:text="${totalCrops}">0</div>
+                        <div class="stats-label">Total Crops</div>
+                        <i class="fas fa-leaf fa-2x text-success mt-2"></i>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number" th:text="${totalListings}">0</div>
+                        <div class="stats-label">Marketplace Listings</div>
+                        <i class="fas fa-store fa-2x text-warning mt-2"></i>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-number" th:text="${totalOrders}">0</div>
+                        <div class="stats-label">Total Orders</div>
+                        <i class="fas fa-shopping-bag fa-2x text-info mt-2"></i>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>User Distribution</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="userDistributionChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Monthly Growth</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="monthlyGrowthChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Analytics -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-chart-area me-2"></i>Platform Activity Trends</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="activityTrendsChart" width="800" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Top Performers</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6 class="text-success">Most Active Farmers</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span>John Smith</span>
+                                        <span class="badge bg-success">25 crops</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Jane Doe</span>
+                                        <span class="badge bg-success">18 crops</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Mike Johnson</span>
+                                        <span class="badge bg-success">15 crops</span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="text-primary">Top Buyers</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Sarah Wilson</span>
+                                        <span class="badge bg-primary">12 orders</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>David Brown</span>
+                                        <span class="badge bg-primary">10 orders</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Lisa Davis</span>
+                                        <span class="badge bg-primary">8 orders</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="text-warning">Popular Categories</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Vegetables</span>
+                                        <span class="badge bg-warning">45%</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Fruits</span>
+                                        <span class="badge bg-warning">30%</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Grains</span>
+                                        <span class="badge bg-warning">25%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i>Performance Metrics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4 class="text-success">98.5%</h4>
+                                            <p class="text-muted">System Uptime</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4 class="text-primary">2.3s</h4>
+                                            <p class="text-muted">Average Response Time</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4 class="text-warning">1,247</h4>
+                                            <p class="text-muted">Daily Active Users</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4 class="text-info">89%</h4>
+                                            <p class="text-muted">User Satisfaction</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{shared/footer :: footer}"></div>
+
+    <script>
+        // User Distribution Chart
+        const userDistributionCtx = document.getElementById('userDistributionChart').getContext('2d');
+        new Chart(userDistributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Farmers', 'Buyers', 'Admins'],
+                datasets: [{
+                    data: [th:text="${totalFarmers}"], [th:text="${totalBuyers}"], [th:text="${totalUsers - totalFarmers - totalBuyers}"]],
+                    backgroundColor: ['#28a745', '#007bff', '#6c757d'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Monthly Growth Chart
+        const monthlyGrowthCtx = document.getElementById('monthlyGrowthChart').getContext('2d');
+        new Chart(monthlyGrowthCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'New Users',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: '#28a745',
+                    borderColor: '#28a745',
+                    borderWidth: 1
+                }, {
+                    label: 'New Orders',
+                    data: [8, 15, 12, 18, 25, 22],
+                    backgroundColor: '#007bff',
+                    borderColor: '#007bff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Activity Trends Chart
+        const activityTrendsCtx = document.getElementById('activityTrendsChart').getContext('2d');
+        new Chart(activityTrendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'User Registrations',
+                    data: [10, 15, 12, 18],
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Orders Placed',
+                    data: [25, 30, 28, 35],
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Crops Added',
+                    data: [15, 20, 18, 22],
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function exportAnalytics() {
+            // Create a simple CSV export
+            const data = [
+                ['Metric', 'Value'],
+                ['Total Users', th:text="${totalUsers}"],
+                ['Total Farmers', th:text="${totalFarmers}"],
+                ['Total Buyers', th:text="${totalBuyers}"],
+                ['Total Crops', th:text="${totalCrops}"],
+                ['Total Listings', th:text="${totalListings}"],
+                ['Total Orders', th:text="${totalOrders}"]
+            ];
+            
+            const csvContent = data.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'analytics-report.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

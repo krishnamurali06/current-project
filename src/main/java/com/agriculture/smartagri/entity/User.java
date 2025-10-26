@@ -37,6 +37,14 @@ public class User {
     // Bidirectional mapping to Crop entity
     @OneToMany(mappedBy = "farmer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Crop> crops;
+    
+    // Bidirectional mapping to SaleListing entity
+    @OneToMany(mappedBy = "farmer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SaleListing> saleListings;
+    
+    // Bidirectional mapping to Order entity (as buyer)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 
     // Getters and setters
     public Long getId() {
@@ -101,5 +109,34 @@ public class User {
 
     public void setCrops(List<Crop> crops) {
         this.crops = crops;
+    }
+    
+    public List<SaleListing> getSaleListings() {
+        return saleListings;
+    }
+
+    public void setSaleListings(List<SaleListing> saleListings) {
+        this.saleListings = saleListings;
+    }
+    
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+    
+    // Helper methods
+    public boolean isFarmer() {
+        return "FARMER".equals(this.role);
+    }
+    
+    public boolean isBuyer() {
+        return "BUYER".equals(this.role);
+    }
+    
+    public boolean isAdmin() {
+        return "ADMIN".equals(this.role);
     }
 }

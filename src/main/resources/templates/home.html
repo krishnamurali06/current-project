@@ -2,36 +2,262 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>SmartAgri | Home</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>SmartAgri - Smart Agriculture Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .feature-icon.farmer {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
+        .feature-icon.buyer {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        }
+        
+        .feature-icon.marketplace {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+        
+        .btn-hero {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        
+        .btn-hero:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-hero.btn-outline-light:hover {
+            background: white;
+            color: #28a745;
+        }
+        
+        .btn-hero.btn-light:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #28a745;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to SmartAgri</h1>
-    </header>
+    <div th:replace="~{shared/header :: header}"></div>
 
-    <main>
-        <section>
-            <h2>Hello, <span th:text="${user.username}">User</span>!</h2>
-            <p>Your role: <strong th:text="${user.role}">Role</strong></p>
-            <p>We're glad to have you on board.</p>
-        </section>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="display-4 fw-bold mb-4">
+                            Smart Agriculture Management System
+                        </h1>
+                        <p class="lead mb-4">
+                            Connect farmers and buyers through an intelligent marketplace. 
+                            Manage crops, track orders, and grow your agricultural business with our comprehensive platform.
+                        </p>
+                        <div class="d-flex flex-wrap">
+                            <a th:href="@{/auth/signup/farmer}" class="btn btn-light btn-hero">
+                                <i class="fas fa-tractor me-2"></i>Start as Farmer
+                            </a>
+                            <a th:href="@{/auth/signup/buyer}" class="btn btn-outline-light btn-hero">
+                                <i class="fas fa-shopping-cart me-2"></i>Start as Buyer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="hero-content">
+                        <i class="fas fa-seedling" style="font-size: 8rem; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <nav>
-            <ul>
-                <li><a th:href="@{/buyer/dashboard}" th:if="${user.role == 'BUYER'}">Buyer Dashboard</a></li>
-                <li><a th:href="@{/farmer/dashboard}" th:if="${user.role == 'FARMER'}">Farmer Dashboard</a></li>
-                <li><a th:href="@{/admin/dashboard}" th:if="${user.role == 'ADMIN'}">Admin Panel</a></li>
-            </ul>
-        </nav>
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold text-primary mb-3">Key Features</h2>
+                    <p class="lead text-muted">Everything you need to manage your agricultural business</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon farmer">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Farmer Dashboard</h4>
+                        <p class="text-muted mb-4">
+                            Manage your crops, track growth, and list your produce for sale. 
+                            Get insights on crop health and optimize your farming practices.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Crop Management</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Marketplace Listings</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Order Management</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Yield Reports</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon buyer">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Buyer Dashboard</h4>
+                        <p class="text-muted mb-4">
+                            Discover fresh produce from local farmers. 
+                            Browse the marketplace, place orders, and track your purchases.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Product Browsing</li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Order Placement</li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Order Tracking</li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Farmer Communication</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon marketplace">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Smart Marketplace</h4>
+                        <p class="text-muted mb-4">
+                            A comprehensive marketplace connecting farmers and buyers. 
+                            Features advanced search, filtering, and real-time inventory management.
+                        </p>
+                        <ul class="list-unstyled text-start">
+                            <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Advanced Search</li>
+                            <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Price Filtering</li>
+                            <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Category Browsing</li>
+                            <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Real-time Updates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">Logout</button>
-        </form>
-    </main>
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="display-5 fw-bold text-primary mb-4">About SmartAgri</h2>
+                    <p class="lead text-muted mb-4">
+                        SmartAgri is a comprehensive agricultural management system designed to bridge the gap 
+                        between farmers and buyers. Our platform empowers farmers to manage their crops efficiently 
+                        while providing buyers with access to fresh, locally grown produce.
+                    </p>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h3 class="fw-bold text-success">100+</h3>
+                                <p class="text-muted">Active Farmers</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h3 class="fw-bold text-primary">500+</h3>
+                                <p class="text-muted">Happy Buyers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="fas fa-chart-line" style="font-size: 6rem; color: #28a745; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 SmartAgri. All rights reserved.</p>
-    </footer>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-4">Ready to Get Started?</h2>
+            <p class="lead mb-4">
+                Join our community of farmers and buyers today. Start your journey towards smarter agriculture.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center">
+                <a th:href="@{/auth/signup/farmer}" class="btn btn-light btn-hero">
+                    <i class="fas fa-tractor me-2"></i>Register as Farmer
+                </a>
+                <a th:href="@{/auth/signup/buyer}" class="btn btn-outline-light btn-hero">
+                    <i class="fas fa-shopping-cart me-2"></i>Register as Buyer
+                </a>
+                <a th:href="@{/auth/login}" class="btn btn-outline-light btn-hero">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{shared/footer :: footer}"></div>
 </body>
 </html>

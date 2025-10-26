@@ -1,111 +1,256 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <title th:text="${title}">Add Crop</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <meta charset="UTF-8">
+    <title th:text="${title}">Crop Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/crop-management.css}" />
-
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-y: auto;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 2rem;
-            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.93);
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            padding: 2rem 2.5rem;
-        }
-
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-
-        label {
-            font-weight: 500;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-            transform: scale(1.02);
-        }
-
-        .alert {
-            font-size: 0.95rem;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
-    <div class="container mt-5" style="max-width: 650px;">
-        <h2 class="mb-4">Add Crop</h2>
-
-        <!-- ✅ Success message -->
-        <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
-
-        <!-- ❌ Error message -->
-        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-        <!-- ✅ Form (no farmer ID, handled by backend) -->
-        <form th:action="@{/crop/add}" method="post" th:object="${crop}">
-
-            <div class="mb-3">
-                <label for="name" class="form-label">Crop Name</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="e.g., Wheat" required />
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/farmer/dashboard">
+                <i class="fas fa-seedling me-2"></i>SmartAgri
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/farmer/dashboard}">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/crop/add}">
+                            <i class="fas fa-plus me-1"></i>Add Crop
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/farmer/view-crops}">
+                            <i class="fas fa-leaf me-1"></i>My Crops
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/marketplace/add}">
+                            <i class="fas fa-store me-1"></i>Add Listing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/farmer/marketplace}">
+                            <i class="fas fa-list me-1"></i>My Listings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/farmer/orders}">
+                            <i class="fas fa-shopping-cart me-1"></i>Orders
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i><span th:text="${username}"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/farmer/profile}">
+                                <i class="fas fa-user-edit me-2"></i>Profile
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" th:href="@{/auth/logout}">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
 
-            <div class="mb-3">
-                <label for="type" class="form-label">Crop Type</label>
-                <input type="text" class="form-control" id="type" th:field="*{type}" placeholder="e.g., Grain" required />
+    <!-- Main Content -->
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h1 class="display-6 text-success">
+                        <i class="fas fa-leaf me-3"></i>Crop Management
+                    </h1>
+                    <p class="lead text-muted">Add and manage your crops</p>
+                </div>
+
+                <!-- Crop Form -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-edit me-2"></i>Crop Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/crop/add}" method="post" th:object="${crop}">
+                            <!-- Success/Error Messages -->
+                            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <span th:text="${success}"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            
+                            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span th:text="${error}"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">
+                                        <i class="fas fa-seedling me-1"></i>Crop Name
+                                    </label>
+                                    <input type="text" id="name" th:field="*{name}" 
+                                           class="form-control" placeholder="Enter crop name" required>
+                                    <div th:if="${#fields.hasErrors('name')}" class="text-danger small mt-1">
+                                        <span th:errors="*{name}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="type" class="form-label">
+                                        <i class="fas fa-tags me-1"></i>Crop Type
+                                    </label>
+                                    <select id="type" th:field="*{type}" class="form-select" required>
+                                        <option value="">Select crop type</option>
+                                        <option value="Vegetables">Vegetables</option>
+                                        <option value="Fruits">Fruits</option>
+                                        <option value="Grains">Grains</option>
+                                        <option value="Spices">Spices</option>
+                                        <option value="Herbs">Herbs</option>
+                                        <option value="Flowers">Flowers</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('type')}" class="text-danger small mt-1">
+                                        <span th:errors="*{type}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="plantingDate" class="form-label">
+                                        <i class="fas fa-calendar-alt me-1"></i>Planting Date
+                                    </label>
+                                    <input type="date" id="plantingDate" th:field="*{plantingDate}" 
+                                           class="form-control" required>
+                                    <div th:if="${#fields.hasErrors('plantingDate')}" class="text-danger small mt-1">
+                                        <span th:errors="*{plantingDate}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="expectedHarvestDate" class="form-label">
+                                        <i class="fas fa-calendar-check me-1"></i>Expected Harvest Date
+                                    </label>
+                                    <input type="date" id="expectedHarvestDate" th:field="*{expectedHarvestDate}" 
+                                           class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="expectedYield" class="form-label">
+                                        <i class="fas fa-weight me-1"></i>Expected Yield (kg)
+                                    </label>
+                                    <input type="number" id="expectedYield" th:field="*{expectedYield}" 
+                                           class="form-control" placeholder="Enter expected yield" 
+                                           min="0" step="0.1">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="healthStatus" class="form-label">
+                                        <i class="fas fa-heartbeat me-1"></i>Health Status
+                                    </label>
+                                    <select id="healthStatus" th:field="*{healthStatus}" class="form-select">
+                                        <option value="HEALTHY">Healthy</option>
+                                        <option value="DISEASED">Diseased</option>
+                                        <option value="PEST_INFESTED">Pest Infested</option>
+                                        <option value="DROUGHT_AFFECTED">Drought Affected</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="soilType" class="form-label">
+                                        <i class="fas fa-mountain me-1"></i>Soil Type
+                                    </label>
+                                    <select id="soilType" th:field="*{soilType}" class="form-select">
+                                        <option value="">Select soil type</option>
+                                        <option value="Clay">Clay</option>
+                                        <option value="Sandy">Sandy</option>
+                                        <option value="Loamy">Loamy</option>
+                                        <option value="Silty">Silty</option>
+                                        <option value="Peaty">Peaty</option>
+                                        <option value="Chalky">Chalky</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="irrigationMethod" class="form-label">
+                                        <i class="fas fa-tint me-1"></i>Irrigation Method
+                                    </label>
+                                    <select id="irrigationMethod" th:field="*{irrigationMethod}" class="form-select">
+                                        <option value="">Select irrigation method</option>
+                                        <option value="Drip Irrigation">Drip Irrigation</option>
+                                        <option value="Sprinkler">Sprinkler</option>
+                                        <option value="Flood Irrigation">Flood Irrigation</option>
+                                        <option value="Manual Watering">Manual Watering</option>
+                                        <option value="Rain-fed">Rain-fed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="fertilizerUsed" class="form-label">
+                                    <i class="fas fa-flask me-1"></i>Fertilizer Used
+                                </label>
+                                <input type="text" id="fertilizerUsed" th:field="*{fertilizerUsed}" 
+                                       class="form-control" placeholder="Enter fertilizer details">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="notes" class="form-label">
+                                    <i class="fas fa-sticky-note me-1"></i>Additional Notes
+                                </label>
+                                <textarea id="notes" th:field="*{notes}" 
+                                          class="form-control" rows="3" 
+                                          placeholder="Any additional information about the crop..."></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a th:href="@{/farmer/view-crops}" class="btn btn-outline-secondary me-md-2">
+                                    <i class="fas fa-arrow-left me-1"></i>Back to Crops
+                                </a>
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-save me-2"></i>Save Crop
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label for="plantingDate" class="form-label">Planting Date</label>
-                <input type="date" class="form-control" id="plantingDate" th:field="*{plantingDate}" required />
-            </div>
-
-            <div class="mb-3">
-                <label for="expectedYield" class="form-label">Expected Yield (kg)</label>
-                <input type="number" class="form-control" id="expectedYield" th:field="*{expectedYield}" min="1" placeholder="Enter expected yield" required />
-            </div>
-
-            <div class="mb-3">
-                <label for="healthStatus" class="form-label">Health Status</label>
-                <input type="text" class="form-control" id="healthStatus" th:field="*{healthStatus}" placeholder="e.g., Healthy" required />
-            </div>
-
-            <button type="submit" class="btn btn-success">Submit Crop</button>
-        </form>
+        </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3 mt-5">
+        <div class="container">
+            <span class="text-muted">&copy; 2025 Smart Agriculture Management System</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

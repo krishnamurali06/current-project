@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -16,15 +17,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/farmer/**", "/crop/**").hasRole("FARMER")
+                .requestMatchers("/auth/**", "/css/**", "/js/**", "/images/**", "/", "/home").permitAll()
+                .requestMatchers("/farmer/**", "/crop/**", "/marketplace/add").hasRole("FARMER")
+                .requestMatchers("/buyer/**", "/marketplace/view", "/order/**").hasAnyRole("BUYER", "FARMER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/auth/login")
-                .usernameParameter("username") // ✅ Login by username
+                .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/farmer/dashboard", true)
+                .successHandler(authenticationSuccessHandler())
                 .permitAll()
             )
             .logout(logout -> logout
@@ -34,14 +37,30 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
             )
-            .csrf(csrf -> csrf.disable()); // Disable for testing only — re-enable later
+            .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
 
     @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            String role = authentication.getAuthorities().iterator().next().getAuthority();
+            if ("ROLE_FARMER".equals(role)) {
+                response.sendRedirect("/farmer/dashboard");
+            } else if ("ROLE_BUYER".equals(role)) {
+                response.sendRedirect("/buyer/dashboard");
+            } else if ("ROLE_ADMIN".equals(role)) {
+                response.sendRedirect("/admin/dashboard");
+            } else {
+                response.sendRedirect("/home");
+            }
+        };
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // ✅ Recommended
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

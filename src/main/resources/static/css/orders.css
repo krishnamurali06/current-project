@@ -1,98 +1,387 @@
-/* Base styling */
-body {
-    background-color: #f4f6f9;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 40px;
-    color: #2c3e50;
+/* Order Management Styles */
+.orders-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
 }
 
-/* Heading */
-h2 {
-    text-align: center;
-    font-size: 2rem;
+.orders-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+}
+
+.orders-header h1 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.orders-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Orders Table */
+.orders-table {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.orders-table .table {
+    margin-bottom: 0;
+}
+
+.orders-table .table thead th {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: none;
     font-weight: 600;
-    margin-bottom: 30px;
-    color: #34495e;
+    color: #495057;
+    padding: 1.25rem 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Form styling */
-form {
-    max-width: 500px;
-    margin: 0 auto 30px auto;
+.orders-table .table tbody td {
+    padding: 1.25rem 1rem;
+    vertical-align: middle;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+}
+
+.orders-table .table tbody tr:hover {
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+/* Order ID */
+.order-id {
+    font-weight: 700;
+    color: #007bff;
+    font-size: 1.1rem;
+}
+
+/* Product Info */
+.product-info {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-form label {
-    font-weight: 500;
-    color: #2e8b57;
+.product-info .product-name {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.25rem;
 }
 
-form input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+.product-info .product-category {
+    color: #6c757d;
+    font-size: 0.85rem;
 }
 
-form input[type="text"]:focus {
-    border-color: #2e8b57;
-    outline: none;
+/* Buyer/Farmer Info */
+.buyer-info,
+.farmer-info {
+    display: flex;
+    flex-direction: column;
 }
 
-form button {
-    background-color: #2e8b57;
+.buyer-info .buyer-name,
+.farmer-info .farmer-name {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.buyer-info .buyer-contact,
+.farmer-info .farmer-location {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Quantity Badge */
+.quantity-badge {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
     color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Price */
+.price {
+    font-weight: 700;
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    color: #000;
+}
+
+.status-badge.bg-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.status-badge.bg-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+}
+
+.status-badge.bg-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: white;
+}
+
+/* Order Date */
+.order-date {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Action Buttons */
+.order-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.order-actions .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.order-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.order-actions .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     border: none;
-    padding: 10px;
+}
+
+.order-actions .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+}
+
+.order-actions .btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    border: none;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.filter-buttons .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
     border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-form button:hover {
-    background-color: #276c48;
+.filter-buttons .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-table th, table td {
-    padding: 12px 16px;
+/* No Orders Message */
+.no-orders {
     text-align: center;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-table th {
-    background-color: #2e8b57;
-    color: white;
+.no-orders i {
+    font-size: 4rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+.no-orders h4 {
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.no-orders p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+}
+
+.no-orders .btn {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
     font-weight: 600;
 }
 
-table tr:hover {
-    background-color: #f1fdf4;
+/* Order Status Legend */
+.status-legend {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* No orders message */
-div p {
+.status-legend h6 {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.status-legend .status-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.status-legend .status-item .badge {
+    margin-right: 0.75rem;
+    min-width: 80px;
     text-align: center;
-    font-style: italic;
-    color: #888;
-    margin-top: 30px;
+}
+
+.status-legend .status-item small {
+    color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .orders-header {
+        padding: 2rem 0;
+    }
+    
+    .orders-header h1 {
+        font-size: 2rem;
+    }
+    
+    .orders-table .table thead th,
+    .orders-table .table tbody td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .order-actions {
+        flex-direction: column;
+    }
+    
+    .order-actions .btn {
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+    
+    .filter-buttons {
+        flex-direction: column;
+    }
+    
+    .filter-buttons .btn {
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .orders-header {
+        padding: 1.5rem 0;
+    }
+    
+    .orders-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .orders-table .table thead th,
+    .orders-table .table tbody td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+    }
+    
+    .order-id {
+        font-size: 1rem;
+    }
+    
+    .price {
+        font-size: 1rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.orders-table {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Loading States */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .orders-table {
+        border: 2px solid #000;
+    }
+    
+    .status-legend {
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .order-actions .btn,
+    .filter-buttons .btn {
+        transition: none;
+    }
+    
+    .orders-table {
+        animation: none;
+    }
 }
